@@ -2,7 +2,9 @@
 ## A Swift Utility Package for those working with ARKit, RealityKit, and SIMD Vectors
 ### Developed by Collin MacDonald
 
-WonderfulReality is a collection of Utility classes and extensions that make working in Augmented Reality easier.
+WonderfulReality is a collection of utility classes and extensions that make working in Augmented Reality a bit more... wonderful.
+
+This package was developed based on the needs of a RealityKit-based app I am developing as part of my PhD Coursework at William & Mary.
 
 ## Extensions
 
