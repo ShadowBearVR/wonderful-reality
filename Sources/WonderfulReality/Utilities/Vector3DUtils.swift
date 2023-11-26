@@ -1,5 +1,5 @@
 //
-//  VectorUtils3D.swift
+//  Vector3DUtils.swift
 //  WonderfulReality
 //
 //  Created by Collin MacDonald on 11/25/23.
@@ -7,7 +7,7 @@
 
 import simd
 
-struct VectorUtils3D {
+struct Vector3DUtils {
     // Derived from: Rodrigues' Rotation Formula
     // Source: https://mathworld.wolfram.com/RodriguesRotationFormula.html
     public static func rotate(vector: SIMD3<Float>, aroundAxis axis: SIMD3<Float>, withAngle angleDegrees: Float) -> SIMD3<Float> {

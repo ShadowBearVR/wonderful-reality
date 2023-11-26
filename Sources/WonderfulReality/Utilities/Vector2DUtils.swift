@@ -1,13 +1,13 @@
 //
-//  VectorUtils2D.swift
-//  VectorUtils3D
+//  Vector2DUtils.swift
+//  WonderfulReality
 //
 //  Created by Collin MacDonald on 11/25/23.
 //
 
 import simd
 
-struct VectorUtils2D {
+struct Vector2DUtils {
     public static func rotatePoints(points: [SIMD2<Float>], angleDegrees: Float) -> [SIMD2<Float>] {
         var rotatedPoints: [SIMD2<Float>] = []
         

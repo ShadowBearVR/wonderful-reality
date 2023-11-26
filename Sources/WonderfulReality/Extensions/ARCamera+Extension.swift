@@ -1,8 +1,8 @@
 //
 //  ARCamera+Extension.swift
-//  GaitSentry
+//  WonderfulReality
 //
-//  Created by Collin MacDonald on 10/28/23.
+//  Created by Collin MacDonald on 11/25/23.
 //
 
 import ARKit
