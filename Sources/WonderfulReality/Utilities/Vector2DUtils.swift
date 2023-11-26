@@ -7,7 +7,7 @@
 
 import simd
 
-struct Vector2DUtils {
+public enum Vector2DUtils {
     public static func rotatePoints(points: [SIMD2<Float>], angleDegrees: Float) -> [SIMD2<Float>] {
         var rotatedPoints: [SIMD2<Float>] = []
         
@@ -29,7 +29,6 @@ struct Vector2DUtils {
     }
     
     public static func projectOntoPlane(origin: SIMD3<Float>, points: [SIMD3<Float>], forwardVector: SIMD3<Float>, upVector: SIMD3<Float>) -> [SIMD2<Float>] {
-
         // Normalize the provided vectors
         let u1 = normalize(upVector)
         let u2 = normalize(forwardVector)
@@ -71,7 +70,7 @@ struct Vector2DUtils {
             }
         }
         
-        guard minX != Float.greatestFiniteMagnitude && maxX != -Float.greatestFiniteMagnitude else {
+        guard minX != Float.greatestFiniteMagnitude, maxX != -Float.greatestFiniteMagnitude else {
             return nil
         }
         
@@ -80,10 +79,10 @@ struct Vector2DUtils {
     }
     
     public static func depthOfShape(atX xValue: Float, forPoints points: [SIMD2<Float>]) -> Float? {
-        var minY: Float = Float.greatestFiniteMagnitude
+        var minY = Float.greatestFiniteMagnitude
         var maxY: Float = -Float.greatestFiniteMagnitude
         
-        for i in 0..<points.count {
+        for i in 0 ..< points.count {
             let current = points[i]
             let next = points[(i + 1) % points.count]
             
@@ -102,10 +101,10 @@ struct Vector2DUtils {
             }
         }
         
-        guard minY != Float.greatestFiniteMagnitude && maxY != -Float.greatestFiniteMagnitude else {
+        guard minY != Float.greatestFiniteMagnitude, maxY != -Float.greatestFiniteMagnitude else {
             return nil
         }
         
-        return maxY-minY
+        return maxY - minY
     }
 }

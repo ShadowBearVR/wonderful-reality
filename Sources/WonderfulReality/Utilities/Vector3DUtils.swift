@@ -7,7 +7,7 @@
 
 import simd
 
-struct Vector3DUtils {
+public enum Vector3DUtils {
     // Derived from: Rodrigues' Rotation Formula
     // Source: https://mathworld.wolfram.com/RodriguesRotationFormula.html
     public static func rotate(vector: SIMD3<Float>, aroundAxis axis: SIMD3<Float>, withAngle angleDegrees: Float) -> SIMD3<Float> {

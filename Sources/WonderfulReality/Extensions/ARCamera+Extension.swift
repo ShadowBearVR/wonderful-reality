@@ -7,25 +7,25 @@
 
 import ARKit
 
-extension ARCamera {
-    public var aspectRatio: Float {
+public extension ARCamera {
+    var aspectRatio: Float {
         return projectionMatrix.m11 / projectionMatrix.m22
     }
     
-    public var verticalFieldOfViewRadians: Float {
+    var verticalFieldOfViewRadians: Float {
         let yScale = projectionMatrix.m22
         return 2 * atan(1 / yScale)
     }
     
-    public var verticalFieldOfViewDegrees: Float {
-        return self.verticalFieldOfViewRadians * (180 / Float.pi)
+    var verticalFieldOfViewDegrees: Float {
+        return verticalFieldOfViewRadians * (180 / Float.pi)
     }
     
-    public var horizontalFieldOfViewRadians: Float {
+    var horizontalFieldOfViewRadians: Float {
         return 2 * atan(tan(verticalFieldOfViewRadians / 2) * aspectRatio)
     }
     
-    public var horizontalFieldOfViewDegrees: Float {
-        return self.horizontalFieldOfViewRadians * (180 / Float.pi)
+    var horizontalFieldOfViewDegrees: Float {
+        return horizontalFieldOfViewRadians * (180 / Float.pi)
     }
 }

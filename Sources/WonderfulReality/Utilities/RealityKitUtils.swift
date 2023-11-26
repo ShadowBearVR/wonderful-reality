@@ -5,10 +5,10 @@
 //  Created by Collin MacDonald on 11/25/23.
 //
 
-import UIKit
 import RealityKit
+import UIKit
 
-struct RealityKitUtils {
+public enum RealityKitUtils {
     public static func visualizePoints(fromPoints points3D: [SIMD3<Float>], lineThickness: Float, lineColor: UIColor, pointsToIgnore: Int = 0) -> AnchorEntity? {
         guard points3D.count >= 3 else {
             return nil

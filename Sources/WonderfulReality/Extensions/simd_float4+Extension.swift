@@ -7,8 +7,8 @@
 
 import simd
 
-extension simd_float4 {
-    public var position: SIMD3<Float> {
+public extension simd_float4 {
+    var position: SIMD3<Float> {
         return SIMD3<Float>(self.x, self.y, self.z)
     }
 }
