@@ -8,12 +8,16 @@
 import simd
 
 public extension simd_float4x4 {
+    // MARK: Position
+    
     var position: SIMD3<Float> {
         return SIMD3<Float>(columns.3.x, columns.3.y, columns.3.z)
     }
     
+    // MARK: Direction Vectors
+    
     var backwardVector: SIMD3<Float> {
-        return normalize(SIMD3<Float>(columns.2.x, columns.2.y, columns.2.z))
+        return simd_normalize(SIMD3<Float>(columns.2.x, columns.2.y, columns.2.z))
     }
     
     var forwardVector: SIMD3<Float> {
@@ -21,7 +25,7 @@ public extension simd_float4x4 {
     }
     
     var upVector: SIMD3<Float> {
-        return normalize(SIMD3<Float>(columns.1.x, columns.1.y, columns.1.z))
+        return simd_normalize(SIMD3<Float>(columns.1.x, columns.1.y, columns.1.z))
     }
     
     var downVector: SIMD3<Float> {
@@ -29,12 +33,14 @@ public extension simd_float4x4 {
     }
     
     var rightVector: SIMD3<Float> {
-        return normalize(SIMD3<Float>(columns.0.x, columns.0.y, columns.0.z))
+        return simd_normalize(SIMD3<Float>(columns.0.x, columns.0.y, columns.0.z))
     }
     
     var leftVector: SIMD3<Float> {
         return -rightVector
     }
+    
+    // MARK: Matrix Values
 
     var m11: Float {
         get { return columns.0.x }
