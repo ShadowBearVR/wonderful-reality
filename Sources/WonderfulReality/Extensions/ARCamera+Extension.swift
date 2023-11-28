@@ -8,6 +8,7 @@
 import ARKit
 
 public extension ARCamera {
+
     var aspectRatio: Float {
         return projectionMatrix.m11 / projectionMatrix.m22
     }
@@ -27,5 +28,13 @@ public extension ARCamera {
     
     var horizontalFieldOfViewDegrees: Float {
         return horizontalFieldOfViewRadians * (180 / Float.pi)
+    }
+    
+    func getTransform(forOrientation interfaceOrientation: UIInterfaceOrientation) -> simd_float4x4 {
+        
+        let viewMatrix = viewMatrix(for: interfaceOrientation)
+        let transformMatrix = simd_inverse(viewMatrix)
+        
+        return transformMatrix
     }
 }
