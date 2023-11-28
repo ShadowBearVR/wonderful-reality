@@ -12,16 +12,28 @@ public extension simd_float4x4 {
         return SIMD3<Float>(columns.3.x, columns.3.y, columns.3.z)
     }
     
-    var worldFront: SIMD3<Float> {
-        return -normalize(SIMD3<Float>(columns.2.x, columns.2.y, columns.2.z))
+    var backwardVector: SIMD3<Float> {
+        return normalize(SIMD3<Float>(columns.2.x, columns.2.y, columns.2.z))
     }
     
-    var worldUp: SIMD3<Float> {
+    var forwardVector: SIMD3<Float> {
+        return -backwardVector
+    }
+    
+    var upVector: SIMD3<Float> {
         return normalize(SIMD3<Float>(columns.1.x, columns.1.y, columns.1.z))
     }
     
-    var worldRight: SIMD3<Float> {
+    var downVector: SIMD3<Float> {
+        return -upVector
+    }
+    
+    var rightVector: SIMD3<Float> {
         return normalize(SIMD3<Float>(columns.0.x, columns.0.y, columns.0.z))
+    }
+    
+    var leftVector: SIMD3<Float> {
+        return -rightVector
     }
 
     var m11: Float {
