@@ -9,10 +9,7 @@ This package was developed based on the needs of a RealityKit-based app I am dev
 ## Extensions
 
 * [ARCamera+Extension](Sources/WonderfulReality/Extensions/ARCamera+Extension.swift)
-  * Extends the `ARCamera` class with computed variables relating to the aspect ratio and field of view for a `ARCamera`.
- 
-* [simd_float4+Extension](Sources/WonderfulReality/Extensions/simd_float4+Extension.swift)
-  * Extends the `simd_float4` class with a computed property for the position (X, Y, and Z components) of any `simd_float4` vector.
+  * Extends the `ARCamera` class with computed variables relating to the aspect ratio and field of view for a `ARCamera`. Also extends ARCamera to provide a orientation-informed transform matrix.
  
 * [simd_float4x4+Extension](Sources/WonderfulReality/Extensions/simd_float4x4+Extension.swift)
   * Extends the `simd_float4x4` class with computed property that exist in SceneKit but not RealityKit (including position, directional vectors, and `m11` through `m44` variables, for accessing mspecific matrix values).
