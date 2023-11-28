@@ -28,10 +28,10 @@ public enum Vector2DUtils {
         return rotatedPoints
     }
     
-    public static func projectOntoPlane(origin: SIMD3<Float>, points: [SIMD3<Float>], forwardVector: SIMD3<Float>, upVector: SIMD3<Float>) -> [SIMD2<Float>] {
+    public static func projectOntoPlane(origin: SIMD3<Float>, points: [SIMD3<Float>], yAxisVector: SIMD3<Float>, xAxisVector: SIMD3<Float>) -> [SIMD2<Float>] {
         // Normalize the provided vectors
-        let u1 = normalize(upVector)
-        let u2 = normalize(forwardVector)
+        let u1 = normalize(xAxisVector)
+        let u2 = normalize(yAxisVector)
         
         // Projecting the points onto the 2D plane formed by the provided orthogonal vectors
         var projectedPoints: [SIMD2<Float>] = []
@@ -74,7 +74,6 @@ public enum Vector2DUtils {
             return nil
         }
         
-        // Return the absolute difference between maxX and minY
         return (abs(minX), abs(maxX))
     }
     
