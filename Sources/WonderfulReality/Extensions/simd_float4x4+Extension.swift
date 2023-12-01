@@ -14,6 +14,24 @@ public extension simd_float4x4 {
         return SIMD3<Float>(columns.3.x, columns.3.y, columns.3.z)
     }
     
+    // MARK: Rotation
+    
+    // Reference: https://stackoverflow.com/questions/50236214/
+    
+    var eulerAnglesRadians: SIMD3<Float> {
+        let pitch = asin(-self[2][1])
+        let yaw = atan2(self[2][0], self[2][2])
+        let roll = atan2(self[0][1], self[1][1])
+        
+        return SIMD3<Float>(pitch, yaw, roll)
+    }
+    
+    var eulerAnglesDegrees: SIMD3<Float> {
+        let rad2deg = (180 / Float.pi)
+        return eulerAnglesRadians * rad2deg
+    }
+
+    
     // MARK: Direction Vectors
     
     var backwardVector: SIMD3<Float> {
