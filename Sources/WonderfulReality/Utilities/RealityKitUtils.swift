@@ -5,10 +5,42 @@
 //  Created by Collin MacDonald on 11/25/23.
 //
 
+import ARKit
 import RealityKit
 import UIKit
 
 public enum RealityKitUtils {
+    public static func computeCollisionPoints(cameraTransform: simd_float4x4, view: ARView, camera: ARCamera, fovStep: Float) -> [SIMD3<Float>] {
+        // Get relevant transform data
+        let cameraPosition = cameraTransform.position
+        let forwardVector = cameraTransform.forwardVector
+        let upVector = cameraTransform.upVector
+        
+        // Get field of view data
+        let hFOV = camera.horizontalFieldOfViewDegrees
+        let halfFOV = (hFOV / 2).rounded(.towardZero)
+        let minFOV = -halfFOV
+        let maxFOV = halfFOV
+        
+        var points3D = [SIMD3<Float>]()
+        
+        points3D.append(cameraPosition)
+        
+        for currentAngle in stride(from: minFOV, through: maxFOV, by: fovStep) {
+            let rayDirection = Vector3DUtils.rotate(vector: forwardVector, aroundAxis: upVector, withAngle: Float(currentAngle))
+            
+            let raycastResults = view.scene.raycast(origin: cameraPosition, direction: rayDirection)
+            
+            if let firstResult = raycastResults.first {
+                let resultPosition = firstResult.position
+                
+                points3D.append(resultPosition)
+            }
+        }
+        
+        return points3D
+    }
+    
     public static func visualizeLine(from start: SIMD3<Float>, to end: SIMD3<Float>, lineThickness: Float, lineColor: UIColor) -> ModelEntity {
         // Calculate the mid-point, distance, and orientation between points
         let midPoint = (start + end) / 2
