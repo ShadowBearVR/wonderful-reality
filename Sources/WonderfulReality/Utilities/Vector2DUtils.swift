@@ -46,14 +46,7 @@ public enum Vector2DUtils {
         
         return projectedPoints
     }
-    
-    public static func widthOfShape(shape: [SIMD2<Float>], atY y: Float) -> (Float, Float)? {
-        guard let leftWidth = leftDistance(shape: shape, atY: y) else { return nil }
-        guard let rightWidth = rightDistance(shape: shape, atY: y) else { return nil }
-        
-        return (abs(leftWidth), abs(rightWidth))
-    }
-    
+
     public static func depthOfShape(atX xValue: Float, forPoints points: [SIMD2<Float>]) -> Float? {
         var maxY = -Float.greatestFiniteMagnitude
         
@@ -82,64 +75,54 @@ public enum Vector2DUtils {
         return maxY
     }
     
-    private static func rightDistance(shape: [SIMD2<Float>], atY y: Float) -> Float? {
-        var closestDistance: Float?
+    public static func widthOfShape(_ points: [SIMD2<Float>], atY y: Float) -> (left: Float?, right: Float?) {
+        var minLeftDistance: Float?
+        var minRightDistance: Float?
         
-        for i in 0..<shape.count {
-            let p1 = shape[i]
-            let p2 = shape[(i + 1) % shape.count]
+        for i in 0 ..< points.count {
+            let p1 = points[i]
+            let p2 = points[(i + 1) % points.count]
             
-            // Check if edge crosses the given y value
-            if (p1.y - y) * (p2.y - y) < 0 {
-                // Calculate intersection point
-                let dx = p2.x - p1.x
-                let dy = p2.y - p1.y
-                let t = (y - p1.y) / dy
-                let xIntersect = p1.x + t * dx
+            // Check if the line is vertical
+            if p1.x == p2.x {
+                let minY = min(p1.y, p2.y)
+                let maxY = max(p1.y, p2.y)
                 
-                // Only consider points to the right of origin
-                if xIntersect > 0 {
-                    let distance = abs(xIntersect) // Distance to the vertical line at x = 0
-                    if let currentClosest = closestDistance {
-                        closestDistance = min(currentClosest, distance)
-                    } else {
-                        closestDistance = distance
+                if y >= minY, y <= maxY {
+                    let distance = abs(p1.x)
+                    if p1.x < 0, minLeftDistance == nil || distance < minLeftDistance! {
+                        minLeftDistance = distance
+                    } else if p1.x > 0, minRightDistance == nil || distance < minRightDistance! {
+                        minRightDistance = distance
+                    }
+                }
+            } else if let (slope, yIntercept) = lineEquation(from: p1, to: p2) {
+                let minY = min(p1.y, p2.y)
+                let maxY = max(p1.y, p2.y)
+                
+                if y >= minY, y <= maxY {
+                    let x = (y - yIntercept) / slope
+                    let distance = abs(x)
+                    
+                    if x < 0, minLeftDistance == nil || distance < minLeftDistance! {
+                        minLeftDistance = distance
+                    } else if x > 0, minRightDistance == nil || distance < minRightDistance! {
+                        minRightDistance = distance
                     }
                 }
             }
         }
         
-        return closestDistance
+        return (minLeftDistance, minRightDistance)
     }
     
-    private static func leftDistance(shape: [SIMD2<Float>], atY y: Float) -> Float? {
-        var closestDistance: Float?
-        
-        for i in 0..<shape.count {
-            let p1 = shape[i]
-            let p2 = shape[(i + 1) % shape.count]
-            
-            // Check if edge crosses the given y value
-            if (p1.y - y) * (p2.y - y) < 0 {
-                // Calculate intersection point
-                let dx = p2.x - p1.x
-                let dy = p2.y - p1.y
-                let t = (y - p1.y) / dy
-                let xIntersect = p1.x + t * dx
-                
-                // Only consider points to the left of origin
-                if xIntersect < 0 {
-                    let distance = abs(xIntersect) // Distance to the vertical line at x = 0
-                    if let currentClosest = closestDistance {
-                        closestDistance = min(currentClosest, distance)
-                    } else {
-                        closestDistance = distance
-                    }
-                }
-            }
+    // Helper function to calculate the slope and y-intercept of a line segment
+    private static func lineEquation(from p1: SIMD2<Float>, to p2: SIMD2<Float>) -> (slope: Float, yIntercept: Float)? {
+        if p1.x != p2.x {
+            let slope = (p2.y - p1.y) / (p2.x - p1.x)
+            let yIntercept = p1.y - slope * p1.x
+            return (slope, yIntercept)
         }
-        
-        return closestDistance
+        return nil
     }
-
 }
