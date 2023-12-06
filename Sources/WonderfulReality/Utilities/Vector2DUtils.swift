@@ -99,7 +99,7 @@ public enum Vector2DUtils {
                 
                 // Only consider points to the right of origin
                 if xIntersect > 0 {
-                    let distance = hypot(xIntersect, y)
+                    let distance = abs(xIntersect) // Distance to the vertical line at x = 0
                     if let currentClosest = closestDistance {
                         closestDistance = min(currentClosest, distance)
                     } else {
@@ -129,7 +129,7 @@ public enum Vector2DUtils {
                 
                 // Only consider points to the left of origin
                 if xIntersect < 0 {
-                    let distance = hypot(xIntersect, y)
+                    let distance = abs(xIntersect) // Distance to the vertical line at x = 0
                     if let currentClosest = closestDistance {
                         closestDistance = min(currentClosest, distance)
                     } else {
