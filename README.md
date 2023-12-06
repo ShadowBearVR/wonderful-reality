@@ -17,7 +17,7 @@ This package was developed based on the needs of a RealityKit-based app I am dev
 ## Utility Classes
 
 * [ARCameraUtils](Sources/WonderfulReality/Utilities/ARCameraUtils.swift)
-  * Contains methods relating to the View Frustrum of a camera in `ARKit`.
+  * Contains methods relating to the view frustum of a camera in `ARKit`.
  
 * [RealityKitUtils](Sources/WonderfulReality/Utilities/RealityKitUtils.swift)
   * Contains a method to visualize an arbitrary set of 3D points in RealityKit.
