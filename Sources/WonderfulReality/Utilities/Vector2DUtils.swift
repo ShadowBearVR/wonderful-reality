@@ -47,38 +47,14 @@ public enum Vector2DUtils {
         return projectedPoints
     }
     
-    public static func widthOfShape(atY yValue: Float, forPoints points: [SIMD2<Float>]) -> (Float, Float)? {
-        var minX = Float.greatestFiniteMagnitude
-        var maxX = -Float.greatestFiniteMagnitude
+    public static func widthOfShape(shape: [SIMD2<Float>], atY y: Float) -> (Float, Float)? {
+        guard let leftWidth = leftDistance(shape: shape, atY: y) else { return nil }
+        guard let rightWidth = rightDistance(shape: shape, atY: y) else { return nil }
         
-        for i in 0 ..< points.count {
-            let current = points[i]
-            let next = points[(i + 1) % points.count]
-            
-            // Check if the line segment intersects with Y=yValue
-            let signs = SIMD2<Float>(current.y - yValue, next.y - yValue)
-            if signs.x * signs.y <= 0 {
-                // Linear interpolation using SIMD operations
-                let deltaY = next.y - current.y
-                let deltaX = next.x - current.x
-                let t = (yValue - current.y) / deltaY
-                let xIntersect = current.x + t * deltaX
-                
-                // Update minX and maxX
-                minX = min(minX, xIntersect)
-                maxX = max(maxX, xIntersect)
-            }
-        }
-        
-        guard minX != Float.greatestFiniteMagnitude, maxX != -Float.greatestFiniteMagnitude else {
-            return nil
-        }
-        
-        return (abs(minX), abs(maxX))
+        return (abs(leftWidth), abs(rightWidth))
     }
     
     public static func depthOfShape(atX xValue: Float, forPoints points: [SIMD2<Float>]) -> Float? {
-        var minY = Float.greatestFiniteMagnitude
         var maxY = -Float.greatestFiniteMagnitude
         
         for i in 0 ..< points.count {
@@ -94,16 +70,76 @@ public enum Vector2DUtils {
                 let t = (xValue - current.x) / deltaX
                 let yIntersect = current.y + t * deltaY
                 
-                // Update minY and maxY
-                minY = min(minY, yIntersect)
+                // Update maxY
                 maxY = max(maxY, yIntersect)
             }
         }
         
-        guard minY != Float.greatestFiniteMagnitude, maxY != -Float.greatestFiniteMagnitude else {
+        guard maxY != -Float.greatestFiniteMagnitude else {
             return nil
         }
         
-        return maxY - minY
+        return maxY
     }
+    
+    private static func rightDistance(shape: [SIMD2<Float>], atY y: Float) -> Float? {
+        var closestDistance: Float?
+        
+        for i in 0..<shape.count {
+            let p1 = shape[i]
+            let p2 = shape[(i + 1) % shape.count]
+            
+            // Check if edge crosses the given y value
+            if (p1.y - y) * (p2.y - y) < 0 {
+                // Calculate intersection point
+                let dx = p2.x - p1.x
+                let dy = p2.y - p1.y
+                let t = (y - p1.y) / dy
+                let xIntersect = p1.x + t * dx
+                
+                // Only consider points to the right of origin
+                if xIntersect > 0 {
+                    let distance = hypot(xIntersect, y)
+                    if let currentClosest = closestDistance {
+                        closestDistance = min(currentClosest, distance)
+                    } else {
+                        closestDistance = distance
+                    }
+                }
+            }
+        }
+        
+        return closestDistance
+    }
+    
+    private static func leftDistance(shape: [SIMD2<Float>], atY y: Float) -> Float? {
+        var closestDistance: Float?
+        
+        for i in 0..<shape.count {
+            let p1 = shape[i]
+            let p2 = shape[(i + 1) % shape.count]
+            
+            // Check if edge crosses the given y value
+            if (p1.y - y) * (p2.y - y) < 0 {
+                // Calculate intersection point
+                let dx = p2.x - p1.x
+                let dy = p2.y - p1.y
+                let t = (y - p1.y) / dy
+                let xIntersect = p1.x + t * dx
+                
+                // Only consider points to the left of origin
+                if xIntersect < 0 {
+                    let distance = hypot(xIntersect, y)
+                    if let currentClosest = closestDistance {
+                        closestDistance = min(currentClosest, distance)
+                    } else {
+                        closestDistance = distance
+                    }
+                }
+            }
+        }
+        
+        return closestDistance
+    }
+
 }
