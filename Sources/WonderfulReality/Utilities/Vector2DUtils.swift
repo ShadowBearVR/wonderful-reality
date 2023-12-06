@@ -49,7 +49,7 @@ public enum Vector2DUtils {
     
     public static func widthOfShape(atY yValue: Float, forPoints points: [SIMD2<Float>]) -> (Float, Float)? {
         var minX = Float.greatestFiniteMagnitude
-        var maxX: Float = -Float.greatestFiniteMagnitude
+        var maxX = -Float.greatestFiniteMagnitude
         
         for i in 0 ..< points.count {
             let current = points[i]
@@ -79,7 +79,7 @@ public enum Vector2DUtils {
     
     public static func depthOfShape(atX xValue: Float, forPoints points: [SIMD2<Float>]) -> Float? {
         var minY = Float.greatestFiniteMagnitude
-        var maxY: Float = -Float.greatestFiniteMagnitude
+        var maxY = -Float.greatestFiniteMagnitude
         
         for i in 0 ..< points.count {
             let current = points[i]

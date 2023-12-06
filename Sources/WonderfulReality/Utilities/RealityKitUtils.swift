@@ -24,8 +24,6 @@ public enum RealityKitUtils {
         
         var points3D = [SIMD3<Float>]()
         
-        points3D.append(cameraPosition)
-        
         for currentAngle in stride(from: minFOV, through: maxFOV, by: fovStep) {
             let rayDirection = Vector3DUtils.rotate(vector: forwardVector, aroundAxis: upVector, withAngle: Float(currentAngle))
             
